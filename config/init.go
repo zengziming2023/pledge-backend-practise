@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	currentAbPath := getCurrentAbPathByCaller()
+	currentAbPath := GetCurrentAbPathByCaller()
 	abs, err := filepath.Abs(currentAbPath + "/configV21.toml")
 	if err != nil {
 		panic("read toml file err: " + err.Error())
@@ -24,7 +24,7 @@ func init() {
 	fmt.Println("init Config: ", Config)
 }
 
-func getCurrentAbPathByCaller() string {
+func GetCurrentAbPathByCaller() string {
 	var abPath string
 	_, file, _, ok := runtime.Caller(0)
 	if ok {

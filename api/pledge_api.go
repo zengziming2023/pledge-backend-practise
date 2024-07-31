@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"pledge-backend-practise/config"
+	"pledge-backend-practise/log"
 )
 
 func main() {
-	fmt.Println("pledge api")
+	log.Logger.Info("pledge api")
 
-	fmt.Println(config.Config.Env.Port)
+	log.Logger.Info(config.Config.Env.Port)
 }
