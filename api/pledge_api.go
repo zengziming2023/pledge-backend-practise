@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"pledge-backend-practise/api/static"
 	"pledge-backend-practise/config"
 	"pledge-backend-practise/log"
 )
@@ -31,7 +32,9 @@ func main() {
 	}(app, ":"+config.Config.Env.Port)
 	log.Logger.Info(config.Config.Env.Port)
 
-	//app.Static("/storage/", staticPath)
+	staimgticPath := static.GetCurrentAbPathByCaller()
+	log.Logger.Info("static img path: " + staimgticPath)
+	app.Static("/storage/", staimgticPath)
 	//app.Use(middlewares.Cors()) // 「 Cross domain Middleware 」
 	//routes.InitRoute(app)
 	app.GET("/", func(context *gin.Context) {
