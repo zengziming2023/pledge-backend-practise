@@ -3,7 +3,9 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"pledge-backend-practise/api/middlewares"
 	"pledge-backend-practise/api/static"
+	"pledge-backend-practise/api/validate"
 	"pledge-backend-practise/config"
 	"pledge-backend-practise/log"
 )
@@ -16,6 +18,7 @@ func main() {
 	//init redis
 
 	//gin bind go-playground-validator
+	validate.BindingValidator()
 
 	// websocket server
 
@@ -32,10 +35,10 @@ func main() {
 	}(app, ":"+config.Config.Env.Port)
 	log.Logger.Info(config.Config.Env.Port)
 
-	staimgticPath := static.GetCurrentAbPathByCaller()
-	log.Logger.Info("static img path: " + staimgticPath)
-	app.Static("/storage/", staimgticPath)
-	//app.Use(middlewares.Cors()) // 「 Cross domain Middleware 」
+	staticImgPath := static.GetCurrentAbPathByCaller()
+	log.Logger.Info("static img path: " + staticImgPath)
+	app.Static("/storage/", staticImgPath)
+	app.Use(middlewares.Cores()) // 「 Cross domain Middleware 」
 	//routes.InitRoute(app)
 	app.GET("/", func(context *gin.Context) {
 		context.JSON(200, gin.H{})
