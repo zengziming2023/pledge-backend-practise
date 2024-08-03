@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"pledge-backend-practise/api/middlewares"
+	"pledge-backend-practise/api/routes"
 	"pledge-backend-practise/api/static"
 	"pledge-backend-practise/api/validate"
 	"pledge-backend-practise/config"
@@ -39,9 +40,5 @@ func main() {
 	log.Logger.Info("static img path: " + staticImgPath)
 	app.Static("/storage/", staticImgPath)
 	app.Use(middlewares.Cores()) // 「 Cross domain Middleware 」
-	//routes.InitRoute(app)
-	app.GET("/", func(context *gin.Context) {
-		context.JSON(200, gin.H{})
-	})
-
+	routes.InitRouter(app)
 }
