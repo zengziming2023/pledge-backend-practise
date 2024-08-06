@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"pledge-backend-practise/api/controllers"
 	"pledge-backend-practise/api/middlewares"
 	"pledge-backend-practise/config"
 )
@@ -9,8 +10,9 @@ import (
 func InitRouter(e *gin.Engine) {
 	v2Group := e.Group("/api/v" + config.Config.Env.Version)
 
+	poolController := &controllers.PoolController{}
 	// pledge-defi backend
-	v2Group.GET("/poolBaseInfo", nil)
+	v2Group.GET("/poolBaseInfo", poolController.PoolBaseInfo)
 	v2Group.GET("/poolDataInfo", nil)
 	v2Group.GET("/token", nil)
 	v2Group.POST("/pool/debtTokenList", middlewares.CheckToken(), nil)
