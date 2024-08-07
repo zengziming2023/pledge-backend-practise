@@ -1,4 +1,4 @@
-package models
+package response
 
 import "encoding/json"
 
