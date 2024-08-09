@@ -13,8 +13,8 @@ func InitRouter(e *gin.Engine) {
 	poolController := &controllers.PoolController{}
 	// pledge-defi backend
 	v2Group.GET("/poolBaseInfo", poolController.PoolBaseInfo)
-	v2Group.GET("/poolDataInfo", nil)
-	v2Group.GET("/token", nil)
+	v2Group.GET("/poolDataInfo", poolController.PoolDataInfo)
+	v2Group.GET("/token", poolController.TokenList)
 	v2Group.POST("/pool/debtTokenList", middlewares.CheckToken(), nil)
 	v2Group.POST("/pool/search", middlewares.CheckToken(), nil)
 

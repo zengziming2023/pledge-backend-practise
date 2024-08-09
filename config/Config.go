@@ -1,5 +1,10 @@
 package config
 
+import (
+	"regexp"
+	"strings"
+)
+
 var Config *Conf
 
 type Conf struct {
@@ -89,4 +94,16 @@ type RedisConfig struct {
 	MaxIdle     int    `toml:"max_idle"`
 	MaxActive   int    `toml:"max_active"`
 	IdleTimeout int    `toml:"idle_timeout"`
+}
+
+func GetBaseUrl() string {
+
+	domainName := Config.Env.DomainName
+	domainNameSlice := strings.Split(domainName, "")
+	pattern := "\\d+"
+	isNumber, _ := regexp.MatchString(pattern, domainNameSlice[0])
+	if isNumber {
+		return Config.Env.Protocol + "://" + Config.Env.DomainName + ":" + Config.Env.Port + "/"
+	}
+	return Config.Env.Protocol + "://" + Config.Env.DomainName + "/"
 }

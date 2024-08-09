@@ -53,3 +53,23 @@ func (c *PoolController) PoolDataInfo(ctx *gin.Context) {
 
 	response.JsonResponse(ctx, statuscode.CommonSuccess, result)
 }
+
+func (c *PoolController) TokenList(ctx *gin.Context) {
+	req := request.TokenList{}
+	var rsp *response.TokenList
+
+	// 参数校验
+	errorCode := validate.NewTokenList().TokenList(ctx, &req)
+	if errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	errorCode = services.NewTokenList().TokenList(&req, rsp)
+	if errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	response.JsonResponse(ctx, statuscode.CommonSuccess, rsp)
+}
