@@ -29,3 +29,12 @@ func (t *TokenInfo) GetTokenList(req *request.TokenList) (error, []TokenList) {
 	// query from db
 	return nil, tokenList
 }
+
+func (t *TokenInfo) DebtTokenList(req *request.TokenList) (error, []TokenInfo) {
+	tokenInfo := make([]TokenInfo, 0)
+	// query from db
+	// err := db.Mysql.Table("token_info").Where("chain_id", req.ChainId).Find(&tokenList).Debug().Error
+
+	return nil, tokenInfo
+
+}

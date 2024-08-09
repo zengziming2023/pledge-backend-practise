@@ -42,3 +42,15 @@ func (t *TokenList) TokenList(req *request.TokenList, rsp *response.TokenList) i
 
 	return statuscode.CommonSuccess
 }
+
+func (t *TokenList) DebtTokenList(req *request.TokenList, rsp *[]models.TokenInfo) int {
+	err, tokenInfos := models.NewTokenInfo().DebtTokenList(req)
+	if err != nil {
+		return statuscode.CommonErrServerErr
+	}
+
+	for _, v := range tokenInfos {
+		*rsp = append(*rsp, v)
+	}
+	return statuscode.CommonSuccess
+}

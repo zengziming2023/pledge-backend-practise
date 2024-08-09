@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"pledge-backend-practise/api/common/statuscode"
+	"pledge-backend-practise/api/models"
 	"pledge-backend-practise/api/models/request"
 	"pledge-backend-practise/api/models/response"
 	"pledge-backend-practise/api/services"
@@ -66,6 +67,26 @@ func (c *PoolController) TokenList(ctx *gin.Context) {
 	}
 
 	errorCode = services.NewTokenList().TokenList(&req, rsp)
+	if errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	response.JsonResponse(ctx, statuscode.CommonSuccess, rsp)
+}
+
+func (c *PoolController) DebtTokenList(ctx *gin.Context) {
+	req := request.TokenList{}
+	var rsp *[]models.TokenInfo
+
+	// 参数校验
+	errorCode := validate.NewTokenList().TokenList(ctx, &req)
+	if errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	errorCode = services.NewTokenList().DebtTokenList(&req, rsp)
 	if errorCode != statuscode.CommonSuccess {
 		response.JsonResponse(ctx, errorCode, nil)
 		return
