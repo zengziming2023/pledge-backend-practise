@@ -16,7 +16,7 @@ func InitRouter(e *gin.Engine) {
 	v2Group.GET("/poolDataInfo", poolController.PoolDataInfo)
 	v2Group.GET("/token", poolController.TokenList)
 	v2Group.POST("/pool/debtTokenList", middlewares.CheckToken(), poolController.DebtTokenList)
-	v2Group.POST("/pool/search", middlewares.CheckToken(), nil)
+	v2Group.POST("/pool/search", middlewares.CheckToken(), poolController.Search)
 
 	// plgr-usdt price
 	v2Group.GET("/price", nil)

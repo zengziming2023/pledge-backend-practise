@@ -94,3 +94,22 @@ func (c *PoolController) DebtTokenList(ctx *gin.Context) {
 
 	response.JsonResponse(ctx, statuscode.CommonSuccess, rsp)
 }
+
+func (c *PoolController) Search(ctx *gin.Context) {
+	req := request.Search{}
+	var rsp *response.Search
+
+	errorCode := validate.NewSearch().Search(ctx, &req)
+	if errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	errorCode = services.NewSearch().Search(&req, rsp)
+	if errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	response.JsonResponse(ctx, statuscode.CommonSuccess, rsp)
+}
