@@ -18,17 +18,18 @@ func (c *PoolController) PoolBaseInfo(ctx *gin.Context) {
 	// 参数校验
 	errorCode := validate.NewPoolBaseInfo().PoolBaseInfo(ctx, &req)
 	if errorCode != statuscode.CommonSuccess {
-		ctx.JSON(errorCode, nil)
+		response.JsonResponse(ctx, errorCode, nil)
 		return
 	}
 
+	// 业务处理
 	errorCode = services.NewPool().PoolBaseInfo(req.ChainId, &result)
 	if errorCode != statuscode.CommonSuccess {
-		ctx.JSON(errorCode, nil)
+		response.JsonResponse(ctx, errorCode, nil)
 		return
 	}
 
-	ctx.JSON(statuscode.CommonSuccess, result)
+	response.JsonResponse(ctx, statuscode.CommonSuccess, result)
 
 }
 
@@ -39,16 +40,16 @@ func (c *PoolController) PoolDataInfo(ctx *gin.Context) {
 	// 参数校验
 	errorCode := validate.NewPoolDataInfo().PoolDataInfo(ctx, &req)
 	if errorCode != statuscode.CommonSuccess {
-		ctx.JSON(errorCode, nil)
+		response.JsonResponse(ctx, errorCode, nil)
 		return
 	}
 
-	// service 取数据
+	// 业务处理 service 取数据
 	errorCode = services.NewPool().PoolDataInfo(req.ChainId, result)
 	if errorCode != statuscode.CommonSuccess {
-		ctx.JSON(errorCode, nil)
+		response.JsonResponse(ctx, errorCode, nil)
 		return
 	}
 
-	ctx.JSON(statuscode.CommonSuccess, result)
+	response.JsonResponse(ctx, statuscode.CommonSuccess, result)
 }

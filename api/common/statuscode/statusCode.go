@@ -21,3 +21,72 @@ const (
 	NameOrPasswordErr = 1303 //name or password error
 
 )
+
+var Msg = map[int]map[int]string{
+
+	0: {
+		LangZh:   "成功",
+		LangZhTw: "成功",
+		LangEn:   "success",
+	},
+	1000: {
+		LangZh:   "服务器繁忙，请稍后重试",
+		LangZhTw: "服務器繁忙，請稍後重試",
+		LangEn:   "server is busy, please try again later",
+	},
+	1001: {
+		LangZh:   "参数不能为空",
+		LangZhTw: "参数不能為空",
+		LangEn:   "parameter is empty",
+	},
+	1101: {
+		LangZh:   "token 不能为空",
+		LangZhTw: "token 不能為空",
+		LangEn:   "token required",
+	},
+	1102: {
+		LangZh:   "token错误",
+		LangZhTw: "token錯誤",
+		LangEn:   "token invalid",
+	},
+	1201: {
+		LangZh:   "sp_name 不能为空",
+		LangZhTw: "sp_name 不能為空",
+		LangEn:   "sp_name required",
+	},
+	1202: {
+		LangZh:   "chain_id 不能为空",
+		LangZhTw: "chain_id 不能為空",
+		LangEn:   "chain_id required",
+	},
+	1203: {
+		LangZh:   "chain_id 错误",
+		LangZhTw: "chain_id 錯誤",
+		LangEn:   "chain_id error",
+	},
+	1301: {
+		LangZh:   "name 不能为空",
+		LangZhTw: "name 不能為空",
+		LangEn:   "name required",
+	},
+	1302: {
+		LangZh:   "password 不能为空",
+		LangZhTw: "password 不能為空",
+		LangEn:   "password required",
+	},
+	1303: {
+		LangZh:   "用户名或密码错误",
+		LangZhTw: "用戶名或密碼錯誤",
+		LangEn:   "name or password error",
+	},
+}
+
+func GetMsg(code int, lang int) string {
+	if _, ok := Msg[code]; ok {
+		msg, ok := Msg[code][lang]
+		if ok {
+			return msg
+		}
+	}
+	return Msg[CommonErrServerErr][lang]
+}
