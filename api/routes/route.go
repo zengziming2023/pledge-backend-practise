@@ -18,8 +18,9 @@ func InitRouter(e *gin.Engine) {
 	v2Group.POST("/pool/debtTokenList", middlewares.CheckToken(), poolController.DebtTokenList)
 	v2Group.POST("/pool/search", middlewares.CheckToken(), poolController.Search)
 
+	priceController := controllers.NewPriceController()
 	// plgr-usdt price
-	v2Group.GET("/price", nil)
+	v2Group.GET("/price", priceController.NewPrice)
 
 	// pledge-defi admin backend
 	v2Group.POST("/pool/setMultiSign", middlewares.CheckToken(), nil)

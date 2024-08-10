@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"pledge-backend-practise/api/middlewares"
+	"pledge-backend-practise/api/models/kucoin"
+	"pledge-backend-practise/api/models/ws"
 	"pledge-backend-practise/api/routes"
 	"pledge-backend-practise/api/static"
 	"pledge-backend-practise/api/validate"
@@ -22,8 +24,10 @@ func main() {
 	validate.BindingValidator()
 
 	// websocket server
+	go ws.StartServer()
 
 	// get plgr price from kucoin-exchange
+	go kucoin.GetExchangePrice()
 
 	// gin start
 	gin.SetMode(gin.DebugMode)
