@@ -20,18 +20,27 @@ func (uc *UserController) Login(ctx *gin.Context) {
 	rsp := &response.Login{}
 
 	// 参数校验
-	errorCode := validate.NewUser().Login(ctx, req)
-	if errorCode != statuscode.CommonSuccess {
+	if errorCode := validate.NewUser().Login(ctx, req); errorCode != statuscode.CommonSuccess {
 		response.JsonResponse(ctx, errorCode, nil)
 		return
 	}
 
 	// 业务处理
-	errorCode = services.NewUser().Login(req, rsp)
-	if errorCode != statuscode.CommonSuccess {
+	if errorCode := services.NewUser().Login(req, rsp); errorCode != statuscode.CommonSuccess {
 		response.JsonResponse(ctx, errorCode, nil)
 		return
 	}
 
 	response.JsonResponse(ctx, statuscode.CommonSuccess, rsp)
+}
+
+func (uc *UserController) Logout(ctx *gin.Context) {
+	userName := ctx.GetString("userName")
+
+	if errorCode := services.NewUser().Logout(userName); errorCode != statuscode.CommonSuccess {
+		response.JsonResponse(ctx, errorCode, nil)
+		return
+	}
+
+	response.JsonResponse(ctx, statuscode.CommonSuccess, nil)
 }

@@ -32,3 +32,9 @@ func (us *UserService) Login(req *request.Login, rsp *response.Login) int {
 		return statuscode.NameOrPasswordErr
 	}
 }
+
+func (us *UserService) Logout(name string) int {
+	// TODO: remove from redis
+
+	return statuscode.CommonSuccess
+}

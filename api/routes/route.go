@@ -29,6 +29,6 @@ func InitRouter(e *gin.Engine) {
 	userController := controllers.NewUserController()
 	// user
 	v2Group.POST("/user/login", userController.Login)
-	v2Group.POST("/user/logout", middlewares.CheckToken(), nil)
+	v2Group.POST("/user/logout", middlewares.CheckToken(), userController.Logout)
 
 }
