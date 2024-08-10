@@ -26,8 +26,9 @@ func InitRouter(e *gin.Engine) {
 	v2Group.POST("/pool/setMultiSign", middlewares.CheckToken(), nil)
 	v2Group.POST("/pool/getMultiSign", middlewares.CheckToken(), nil)
 
+	userController := controllers.NewUserController()
 	// user
-	v2Group.POST("/user/login", nil)
+	v2Group.POST("/user/login", userController.Login)
 	v2Group.POST("/user/logout", middlewares.CheckToken(), nil)
 
 }
