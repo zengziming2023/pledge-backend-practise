@@ -22,9 +22,10 @@ func InitRouter(e *gin.Engine) {
 	// plgr-usdt price
 	v2Group.GET("/price", priceController.NewPrice)
 
+	multiSignPoolController := controllers.NewMultiSignPoolController()
 	// pledge-defi admin backend
-	v2Group.POST("/pool/setMultiSign", middlewares.CheckToken(), nil)
-	v2Group.POST("/pool/getMultiSign", middlewares.CheckToken(), nil)
+	v2Group.POST("/pool/setMultiSign", middlewares.CheckToken(), multiSignPoolController.SetMultiSign)
+	v2Group.POST("/pool/getMultiSign", middlewares.CheckToken(), multiSignPoolController.GetMultiSign)
 
 	userController := controllers.NewUserController()
 	// user
