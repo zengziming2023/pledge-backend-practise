@@ -18,7 +18,7 @@ func main() {
 	log.Logger.Info("pledge api")
 
 	//init mysql
-
+	db.InitMySql()
 	//init redis
 	db.InitRedis()
 
