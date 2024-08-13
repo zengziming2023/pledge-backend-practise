@@ -10,6 +10,7 @@ import (
 	"pledge-backend-practise/api/static"
 	"pledge-backend-practise/api/validate"
 	"pledge-backend-practise/config"
+	"pledge-backend-practise/db"
 	"pledge-backend-practise/log"
 )
 
@@ -19,6 +20,7 @@ func main() {
 	//init mysql
 
 	//init redis
+	db.InitRedis()
 
 	//gin bind go-playground-validator
 	validate.BindingValidator()
