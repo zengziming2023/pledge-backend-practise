@@ -1,6 +1,9 @@
 package response
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"pledge-backend-practise/db"
+)
 
 type PoolBaseInfoRes struct {
 	Index    int          `json:"index"`
@@ -67,8 +70,10 @@ func NewPoolBases() *PoolBases {
 func (p *PoolBases) PoolBaseInfo(chainId int, res *[]PoolBaseInfoRes) error {
 	var poolBases []PoolBases
 
-	// TODO: query db to find PoolBases
-	_ = poolBases
+	err := db.MySql.Table("poolbases").Where("chain_id=?", chainId).Order("pool_id asc").Find(&poolBases).Debug().Error
+	if err != nil {
+		return err
+	}
 
 	for _, v := range poolBases {
 		borrowTokenInfo := BorrowTokenInfo{}

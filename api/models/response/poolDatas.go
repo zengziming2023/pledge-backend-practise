@@ -1,5 +1,7 @@
 package response
 
+import "pledge-backend-practise/db"
+
 type PoolData struct {
 	PoolID                 int    `json:"-"`
 	SettleAmountLend       string `json:"settleAmountLend"`
@@ -22,8 +24,10 @@ func NewPoolData() *PoolData {
 func (data *PoolData) PoolDataInfo(chainId int, res *[]PoolDataRes) error {
 	var poolData []PoolData
 
-	// TODO: query db and fill up data
-	_ = poolData
+	err := db.MySql.Table("pooldata").Where("chain_id = ?", chainId).Order("pool_id asc").Find(&poolData).Debug().Error
+	if err != nil {
+		return err
+	}
 
 	for _, v := range poolData {
 		*res = append(*res, PoolDataRes{

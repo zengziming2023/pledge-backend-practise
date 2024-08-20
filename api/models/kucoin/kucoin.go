@@ -2,6 +2,7 @@ package kucoin
 
 import (
 	"github.com/Kucoin/kucoin-go-sdk"
+	"pledge-backend-practise/db"
 	"pledge-backend-practise/log"
 )
 
@@ -14,7 +15,13 @@ var PlgrPriceChan = make(chan string, 2)
 func GetExchangePrice() {
 	log.Logger.Info("GetExchangePrice")
 
-	//TODO:  get plgr price from redis
+	// get plgr price from redis
+	price, err := db.RedisGetString("plgr_price")
+	if err != nil {
+		log.Logger.Error("get price from redis error: " + err.Error())
+	} else {
+		PlgrPrice = price
+	}
 
 	s := kucoin.NewApiService(kucoin.ApiKeyOption("key"),
 		kucoin.ApiSecretOption("secret"),
@@ -69,6 +76,7 @@ func GetExchangePrice() {
 		PlgrPrice = t.Price
 		PlgrPriceChan <- PlgrPrice
 
-		// TODO: 更新 redis
+		// 更新 redis
+		_ = db.RedisSetString("plgr_price", PlgrPrice, 0)
 	}
 }

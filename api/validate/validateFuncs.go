@@ -3,6 +3,7 @@ package validate
 import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
+	"pledge-backend-practise/db"
 	"regexp"
 	"strings"
 	"sync"
@@ -72,14 +73,15 @@ func OnlyOne(fl validator.FieldLevel) bool {
 	tableName := vals[0]
 	fieldName := vals[1]
 
-	// TODO: check db
+	//  check db
 	var data dataStruct
 	sqlStr := fmt.Sprintf("`%s=?`", fieldName)
+	db.MySql.Table(tableName).Select("COUNT(*)").Where(sqlStr, fl.Field().Interface()).Scan(&data.DataCount)
 
-	_ = data
-	_ = sqlStr
-	_ = tableName
-
+	if data.DataCount > 0 {
+		return false
+	}
+	// 没触发false就说明没有重复记录，返回true
 	return true
 
 }

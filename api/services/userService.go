@@ -4,6 +4,8 @@ import (
 	"pledge-backend-practise/api/common/statuscode"
 	"pledge-backend-practise/api/models/request"
 	"pledge-backend-practise/api/models/response"
+	"pledge-backend-practise/config"
+	"pledge-backend-practise/db"
 	"pledge-backend-practise/log"
 	"pledge-backend-practise/utils"
 )
@@ -25,7 +27,8 @@ func (us *UserService) Login(req *request.Login, rsp *response.Login) int {
 		}
 		rsp.TokenId = token
 
-		//TODO: save to redis
+		// save to redis
+		_ = db.RedisSet(req.Name, "login_ok", config.Config.Jwt.ExpireTime)
 
 		return statuscode.CommonSuccess
 	} else {
@@ -34,7 +37,8 @@ func (us *UserService) Login(req *request.Login, rsp *response.Login) int {
 }
 
 func (us *UserService) Logout(name string) int {
-	// TODO: remove from redis
+	// remove from redis
+	_ = db.RedisDelete(name)
 
 	return statuscode.CommonSuccess
 }
