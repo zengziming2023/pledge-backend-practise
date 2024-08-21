@@ -5,7 +5,8 @@ import (
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"os"
-	"pledge-backend-practise/config"
+	"path/filepath"
+	"runtime"
 )
 
 var Logger *zap.Logger
@@ -14,11 +15,11 @@ func init() {
 	//zap 不支持文件归档，如果要支持文件按大小或者时间归档，需要使用lumberjack，lumberjack也是zap官方推荐的。
 	// https://github.com/uber-go/zap/blob/master/FAQ.md
 	hook := lumberjack.Logger{
-		Filename:   config.GetCurrentAbPathByCaller() + "/logs/log.log", // 日志文件路径
-		MaxSize:    50,                                                  // 每个日志文件保存的最大尺寸 单位：M
-		MaxBackups: 20,                                                  // 日志文件最多保存多少个备份
-		MaxAge:     7,                                                   // 文件最多保存多少天
-		Compress:   true,                                                // 是否压缩
+		Filename:   GetCurrentAbPathByCaller() + "/logs/log.log", // 日志文件路径
+		MaxSize:    50,                                           // 每个日志文件保存的最大尺寸 单位：M
+		MaxBackups: 20,                                           // 日志文件最多保存多少个备份
+		MaxAge:     7,                                            // 文件最多保存多少天
+		Compress:   true,                                         // 是否压缩
 	}
 
 	encoderConfig := zapcore.EncoderConfig{
@@ -54,4 +55,13 @@ func init() {
 	filed := zap.Fields(zap.String("serviceName", "pledge"))
 	// 构造日志
 	Logger = zap.New(core, caller, development, filed)
+}
+
+func GetCurrentAbPathByCaller() string {
+	var abPath string
+	_, file, _, ok := runtime.Caller(0)
+	if ok {
+		abPath = filepath.Dir(file)
+	}
+	return abPath
 }
