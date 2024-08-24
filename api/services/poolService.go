@@ -1,8 +1,10 @@
 package services
 
 import (
+	"github.com/ethereum/go-ethereum/ethclient"
 	"pledge-backend-practise/api/common/statuscode"
 	"pledge-backend-practise/api/models/response"
+	"pledge-backend-practise/config"
 	"pledge-backend-practise/log"
 )
 
@@ -29,4 +31,23 @@ func (s *poolService) PoolDataInfo(chainId int, res *[]response.PoolDataRes) int
 	}
 
 	return statuscode.CommonSuccess
+}
+
+func (s *poolService) UpdateAllPoolInfo() {
+	testNet := config.Config.TestNet
+	s.UpdatePoolInfo(testNet.PlgrAddress, testNet.NetUrl, testNet.ChainId)
+
+	mainNet := config.Config.MainNet
+	s.UpdatePoolInfo(mainNet.PlgrAddress, mainNet.NetUrl, mainNet.ChainId)
+}
+
+func (s *poolService) UpdatePoolInfo(contractAddress string, netUrl string, chainId string) {
+	log.Logger.Info("update pool info" + contractAddress + ", " + netUrl + ", " + chainId)
+	client, err := ethclient.Dial(netUrl)
+	if err != nil {
+		log.Logger.Error(err.Error())
+		return
+	}
+
+	_ = client
 }

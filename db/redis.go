@@ -40,8 +40,11 @@ func InitRedis() *redis.Pool {
 
 	err := RedisPool.Get().Err()
 	if err != nil {
-		panic("redis connect failed: " + err.Error())
+		//panic("redis connect failed: " + err.Error())
+		log.Logger.Error("init redis pool error: " + err.Error())
+		return nil
 	}
+
 	return RedisPool
 }
 

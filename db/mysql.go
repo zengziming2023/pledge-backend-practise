@@ -37,7 +37,9 @@ func InitMySql() {
 		SkipDefaultTransaction: true,
 	})
 	if err != nil {
-		panic("failed to connect database: " + err.Error())
+		//panic("failed to connect database: " + err.Error())
+		log.Logger.Error("failed to connect database: " + err.Error())
+		return
 	}
 
 	_ = db.Callback().Create().After("gorm:after_create").Register("after_create", After)
